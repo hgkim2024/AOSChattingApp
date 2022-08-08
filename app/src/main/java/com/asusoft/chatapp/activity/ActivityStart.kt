@@ -1,11 +1,12 @@
-package com.asusoft.chatapp
+package com.asusoft.chatapp.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.asusoft.chatapp.R
 
-class MainActivity : AppCompatActivity() {
+class ActivityStart : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_start)
     }
 }
