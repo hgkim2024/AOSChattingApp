@@ -56,9 +56,9 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
 
     // rxjava
-    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    implementation "io.reactivex.rxjava3:rxjava:3.0.8"
-    implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
+//    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+//    implementation "io.reactivex.rxjava3:rxjava:3.0.8"
+//    implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
 
     // Event Bus
     implementation 'org.greenrobot:eventbus:3.2.0'
@@ -72,6 +72,12 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+
+    // jackson
+    implementation "com.fasterxml.jackson.core:jackson-core:2.13.3"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:2.13.3"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.13.3"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.11.1"
 
     // Basic SDK
     implementation 'androidx.core:core-ktx:1.8.0'
