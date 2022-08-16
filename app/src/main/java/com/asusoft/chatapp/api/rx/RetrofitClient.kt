@@ -1,5 +1,7 @@
 package com.asusoft.chatapp.api.rx
 
+import com.asusoft.chatapp.api.rx.member.MemberApiInterface
+
 object RetrofitClient {
 
     val url = "http://192.168.0.16:8080/"
@@ -24,7 +26,7 @@ object RetrofitClient {
 
         return when (obj) {
             "MemberApi" -> {
-                retrofit.create(MemberApi::class.java)
+                retrofit.create(MemberApiInterface::class.java)
             }
 
             else -> throw Exception("getInstanceAPI error")

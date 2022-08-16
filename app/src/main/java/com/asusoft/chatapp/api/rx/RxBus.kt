@@ -23,6 +23,10 @@ object RxBus {
 
     // Key
     const val SIGN_UP = "sign up"
+    const val SIGN_UP_ERROR = "sign up error"
+
+    const val LOGIN = "login"
+    const val LOGIN_ERROR = "login error"
 
     const val ERROR = "error"
 }

@@ -16,8 +16,11 @@ object ApiClient {
     fun <T> buildDisposable(
         any: Maybe<Response<T>>,
         rxBusKey: String,
+        errorString: String = RxBus.ERROR,
         retryCount: Int = 1
     ): Disposable {
+        //TODO: - 시작, 종료 시 이벤트 버스로 던지기 - 프로그래스바 동작을 위함
+        // or 최상위 뷰를 인자로 항상 받아서 이 함수에서 프로그래스바 처리
         return any
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
@@ -30,10 +33,10 @@ object ApiClient {
                 },
                 { error ->
                     if (retryCount > 0) {
-                        buildDisposable(any, rxBusKey, retryCount - 1)
+                        buildDisposable(any, rxBusKey, errorString,retryCount - 1)
                     } else {
 //                        Log.e("실패", error.toString())
-                        RxBus.instance.sendEvent(error, RxBus.ERROR)
+                        RxBus.instance.sendEvent(error, errorString)
                     }
                 }
             )

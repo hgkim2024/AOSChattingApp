@@ -4,7 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/activity_main.xml" value="0.36730072463768115" />
-        <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/activity_start.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/activity_start.xml" value="0.33" />
+        <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/xml/network_security_config.xml" value="0.286231884057971" />
       </map>
     </option>
   </component>
@@ -13,5 +14,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.33" />
+      </ProjectState>
+    </option>
   </component>
 </project>
