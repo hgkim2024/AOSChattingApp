@@ -15,6 +15,7 @@ import com.asusoft.chatapp.api.status.StatusCode.*
 import io.reactivex.disposables.CompositeDisposable
 import okhttp3.ResponseBody
 import retrofit2.HttpException
+import java.net.SocketTimeoutException
 
 class MemberApi {
 
@@ -61,6 +62,7 @@ class MemberApi {
             val dto = it as? ReadMemberDto ?: return@subscribe
 
             toastMsg("로그인 성공 $dto")
+//            (context as Activity).window.decorView
 //            (context as StartActivity).binding.tvId.setText("1234")
 //            (context as Activity).findViewById<EditText>(R.id.tvId).setText("1234")
         }.apply { disposables.add(this) }
@@ -71,7 +73,7 @@ class MemberApi {
             val error = it as? HttpException ?: return@subscribe
             when(error.code()) {
                 NotFound.code -> {
-                    toastMsg("회원가입 실패")
+                    toastMsg("이미 가입한 회원의 아이디 또는 닉네임입니다.")
                 }
             }
         }.apply { disposables.add(this) }
@@ -80,9 +82,14 @@ class MemberApi {
             val error = it as? HttpException ?: return@subscribe
             when(error.code()) {
                 NotFound.code -> {
-                    toastMsg("로그인 실패")
+                    toastMsg("아이디 또는 비밀번호가 일치하지않습니다.")
                 }
             }
+        }.apply { disposables.add(this) }
+
+        RxBus.receiveEvent(RxBus.ERROR).subscribe {
+            val error = it as? SocketTimeoutException ?: return@subscribe
+            toastMsg(error.message.toString())
         }.apply { disposables.add(this) }
     }
 

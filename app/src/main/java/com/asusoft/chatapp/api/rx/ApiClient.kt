@@ -7,11 +7,10 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import retrofit2.Response
+import java.net.SocketTimeoutException
 
 object ApiClient {
 
-    val url = "http://192.168.0.16:8080/"
-//    val url = "http://3.37.113.193:8080/"
 
     fun <T> buildDisposable(
         any: Maybe<Response<T>>,
@@ -36,7 +35,11 @@ object ApiClient {
                         buildDisposable(any, rxBusKey, errorString,retryCount - 1)
                     } else {
 //                        Log.e("실패", error.toString())
-                        RxBus.instance.sendEvent(error, errorString)
+                        if (error is SocketTimeoutException) {
+                            RxBus.instance.sendEvent(error, RxBus.ERROR)
+                        } else {
+                            RxBus.instance.sendEvent(error, errorString)
+                        }
                     }
                 }
             )
