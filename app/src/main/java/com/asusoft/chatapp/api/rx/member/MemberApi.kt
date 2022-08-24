@@ -47,12 +47,12 @@ class MemberApi {
 
     fun signUp(dto: CreateMemberDto) {
         val api = MemberApiClient.signUp(dto)
-        ApiClient.buildDisposable(api, RxBus.SIGN_UP, RxBus.SIGN_UP_ERROR).apply { disposables.add(this) }
+        ApiClient.buildDisposable(api, RxBus.SIGN_UP, RxBus.SIGN_UP_ERROR, context).apply { disposables.add(this) }
     }
 
     fun login(dto: LoginDto) {
         val api = MemberApiClient.login(dto)
-        ApiClient.buildDisposable(api, RxBus.LOGIN, RxBus.LOGIN_ERROR).apply { disposables.add(this) }
+        ApiClient.buildDisposable(api, RxBus.LOGIN, RxBus.LOGIN_ERROR, context).apply { disposables.add(this) }
     }
 
     private fun registerSuccessRxBus() {
@@ -71,11 +71,8 @@ class MemberApi {
         RxBus.receiveEvent(RxBus.LOGIN).subscribe {
             val dto = it as? ReadMemberDto ?: return@subscribe
 
-            // TODO: - 채팅화면으로 이동
-            toastMsg("로그인 성공 $dto")
-//            (context as Activity).window.decorView.rootView
-//            (context as LoginActivity).binding.tvId.setText("1234")
-//            (context as Activity).findViewById<EditText>(R.id.tvId).setText("1234")
+//            toastMsg("로그인 성공 $dto")
+            toastMsg("로그인 성공")
         }.apply { disposables.add(this) }
     }
 
