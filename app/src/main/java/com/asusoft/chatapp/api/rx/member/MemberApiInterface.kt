@@ -12,7 +12,7 @@ interface MemberApiInterface {
     @POST("member/signup")
     fun signUp(
         @QueryMap map: Map<String, String>
-    ): Maybe<Response<ResponseBody>>
+    ): Maybe<Response<Long>>
 
 
     @POST("member/login")

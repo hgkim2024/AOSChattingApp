@@ -18,8 +18,7 @@ object ApiClient {
         errorString: String = RxBus.ERROR,
         retryCount: Int = 1
     ): Disposable {
-        //TODO: - 시작, 종료 시 이벤트 버스로 던지기 - 프로그래스바 동작을 위함
-        // or 최상위 뷰를 인자로 항상 받아서 이 함수에서 프로그래스바 처리
+        //TODO: - 프로그래스바 추가
         return any
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }

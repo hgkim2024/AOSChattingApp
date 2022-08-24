@@ -15,7 +15,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".activity.StartActivity"
+            android:name=".activity.login.SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

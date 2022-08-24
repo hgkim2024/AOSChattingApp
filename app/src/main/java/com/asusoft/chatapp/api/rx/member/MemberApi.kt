@@ -1,23 +1,27 @@
 package com.asusoft.chatapp.api.rx.member
 
-import android.app.Activity
 import android.content.Context
-import android.widget.EditText
 import android.widget.Toast
-import com.asusoft.chatapp.R
-import com.asusoft.chatapp.activity.StartActivity
 import com.asusoft.chatapp.api.domain.member.CreateMemberDto
 import com.asusoft.chatapp.api.domain.member.LoginDto
 import com.asusoft.chatapp.api.domain.member.ReadMemberDto
 import com.asusoft.chatapp.api.rx.ApiClient
 import com.asusoft.chatapp.api.rx.RxBus
 import com.asusoft.chatapp.api.status.StatusCode.*
+import com.asusoft.chatapp.eventbus.BusMap
 import io.reactivex.disposables.CompositeDisposable
 import okhttp3.ResponseBody
 import retrofit2.HttpException
+import retrofit2.Response
 import java.net.SocketTimeoutException
 
 class MemberApi {
+
+    companion object {
+        override fun toString(): String {
+            return "MemberApi"
+        }
+    }
 
     private var context: Context? = null
 
@@ -53,17 +57,24 @@ class MemberApi {
 
     private fun registerSuccessRxBus() {
         RxBus.receiveEvent(RxBus.SIGN_UP).subscribe {
-            val responseBody = it as? ResponseBody ?: return@subscribe
+            val response = it as? Long ?: return@subscribe
+//            toastMsg("회원가입 성공 $response")
 
-            toastMsg("회원가입 성공 $responseBody")
+            BusMap.post(
+                MemberApi.toString(),
+                OK,
+                response
+            )
+
         }.apply { disposables.add(this) }
 
         RxBus.receiveEvent(RxBus.LOGIN).subscribe {
             val dto = it as? ReadMemberDto ?: return@subscribe
 
+            // TODO: - 채팅화면으로 이동
             toastMsg("로그인 성공 $dto")
-//            (context as Activity).window.decorView
-//            (context as StartActivity).binding.tvId.setText("1234")
+//            (context as Activity).window.decorView.rootView
+//            (context as LoginActivity).binding.tvId.setText("1234")
 //            (context as Activity).findViewById<EditText>(R.id.tvId).setText("1234")
         }.apply { disposables.add(this) }
     }

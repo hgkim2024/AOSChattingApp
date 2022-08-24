@@ -15,7 +15,7 @@ object MemberApiClient {
     private val retrofitClient: MemberApiInterface = RetrofitClient.getInstanceAPI("MemberApi") as MemberApiInterface
     private val objectMapper = ObjectMapper()
 
-    fun signUp(dto: CreateMemberDto) : Maybe<Response<ResponseBody>> {
+    fun signUp(dto: CreateMemberDto) : Maybe<Response<Long>> {
         val map = objectMapper.convertValue(dto, Map::class.java) as Map<String, String>
         return retrofitClient.signUp(map)
     }
