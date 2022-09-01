@@ -8,14 +8,15 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.asusoft.chatapp.R
 import com.asusoft.chatapp.api.domain.member.LoginDto
-import com.asusoft.chatapp.api.rx.member.MemberApi
+import com.asusoft.chatapp.api.domain.member.ReadMemberDto
+import com.asusoft.chatapp.api.rx.ApiController
+import com.asusoft.chatapp.api.rx.member.MemberService
 import com.asusoft.chatapp.databinding.ActivityLoginBinding
+import retrofit2.HttpException
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private var memberApi: MemberApi? = null
-
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,9 +31,9 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.title = getString(R.string.login_text)
 
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == RESULT_OK) {
-                Toast.makeText(this, "정상적으로 엑티비티를 종료하였습니다.", Toast.LENGTH_SHORT).show()
-            }
+//            if (it.resultCode == RESULT_OK) {
+//
+//            }
         }
 
         binding.btnLogin.setOnClickListener {
@@ -40,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
             val pw = binding.tvPw.text.toString()
 
             val dto = LoginDto(id, pw)
-            memberApi?.login(dto)
+            login(dto)
         }
 
         binding.btnSignUp.setOnClickListener {
@@ -50,16 +51,23 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        val memberApi = MemberApi()
-        this.memberApi = memberApi
-        memberApi.setContext(this)
-    }
+    private fun login(dto: LoginDto) {
+        val api = MemberService.login(dto)
 
-    override fun onStop() {
-        memberApi?.dispose()
-        memberApi = null
-        super.onStop()
+        ApiController.apiSubscribe(
+            api,
+            this,
+            { result ->
+                val dto: ReadMemberDto = (result as? ReadMemberDto) ?: return@apiSubscribe
+//                Toast.makeText(this, dto.name, Toast.LENGTH_SHORT).show()
+                ApiController.toast(this, dto.name)
+                // TODO: - 채팅창으로 이동
+            }, {
+                // TODO: - 예외처리 공통로직 만들것
+                // 발견한 예외 HttpException, java.net.SocketTimeoutException
+                ApiController.toast(this, "아이디 또는 비밀번호가 일치하지않습니다.")
+            }
+        )
+
     }
 }

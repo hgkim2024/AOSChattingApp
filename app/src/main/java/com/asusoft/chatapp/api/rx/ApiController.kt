@@ -3,62 +3,49 @@ package com.asusoft.chatapp.api.rx
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import com.asusoft.chatapp.R
 import com.asusoft.chatapp.extension.removeFromSuperView
 import com.google.android.material.progressindicator.CircularProgressIndicator
-import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
-import retrofit2.Response
-import java.net.SocketTimeoutException
 
-object ApiClient {
+object ApiController {
 
-
-    fun <T> buildDisposable(
-        any: Maybe<Response<T>>,
-        rxBusKey: String,
-        errorString: String = RxBus.ERROR,
+    fun <T> apiSubscribe(
+        any: Observable<T>,
         context: Context?,
-        retryCount: Int = 1
+        success: (Any?) -> Unit,
+        fail: (e: Throwable) -> Unit
     ): Disposable {
         val indicator: List<View>?
         indicator = createIndicator(context)
 
         return any
             .subscribeOn(Schedulers.io())
-            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { result ->
                     removeViewList(indicator)
-                    val res = result.body()!!
-//                    Log.d("성공", res.toString())
-                    RxBus.instance.sendEvent(res, rxBusKey)
+                    success(result)
                 },
                 { error ->
                     removeViewList(indicator)
-                    if (retryCount > 0) {
-                        buildDisposable(any, rxBusKey, errorString, context,retryCount - 1)
-                    } else {
-//                        Log.e("실패", error.toString())
-                        if (error is SocketTimeoutException) {
-                            RxBus.instance.sendEvent(error, RxBus.ERROR)
-                        } else {
-                            RxBus.instance.sendEvent(error, errorString)
-                        }
-                    }
+                    fail(error)
                 }
             )
 
     }
 
+    fun toast(ctx: Context, msg: String?) {
+        Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show()
+    }
 
     private fun createIndicator(context: Context?): List<View> {
         val ctx = context ?: return ArrayList()
@@ -108,4 +95,5 @@ object ApiClient {
             it.removeFromSuperView()
         }
     }
+
 }

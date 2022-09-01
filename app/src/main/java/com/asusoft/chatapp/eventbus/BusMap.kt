@@ -1,6 +1,5 @@
 package com.asusoft.chatapp.eventbus
 
-import com.asusoft.chatapp.api.rx.member.MemberApi
 import com.asusoft.chatapp.api.status.StatusCode
 
 enum class BusMap(val value:String) {

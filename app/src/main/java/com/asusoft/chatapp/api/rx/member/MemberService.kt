@@ -5,24 +5,21 @@ import com.asusoft.chatapp.api.domain.member.LoginDto
 import com.asusoft.chatapp.api.domain.member.ReadMemberDto
 import com.asusoft.chatapp.api.rx.RetrofitClient
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.reactivex.Maybe
-import okhttp3.ResponseBody
-import retrofit2.Response
+import io.reactivex.Observable
 
+object MemberService {
 
-object MemberApiClient {
-
-    private val retrofitClient: MemberApiInterface = RetrofitClient.getInstanceAPI("MemberApi") as MemberApiInterface
+    private val memberRepository: MemberRepository = RetrofitClient.getInstanceAPI("MemberRepository") as MemberRepository
     private val objectMapper = ObjectMapper()
 
-    fun signUp(dto: CreateMemberDto) : Maybe<Response<Long>> {
+    fun signUp(dto: CreateMemberDto) : Observable<Long> {
         val map = objectMapper.convertValue(dto, Map::class.java) as Map<String, String>
-        return retrofitClient.signUp(map)
+        return memberRepository.signUp(map)
     }
 
-    fun login(dto: LoginDto) : Maybe<Response<ReadMemberDto>> {
+    fun login(dto: LoginDto) : Observable<ReadMemberDto> {
         val map = objectMapper.convertValue(dto, Map::class.java) as Map<String, String>
-        return retrofitClient.login(map)
+        return memberRepository.login(map)
     }
 
 }
