@@ -3,16 +3,19 @@ package com.asusoft.chatapp.activity.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import android.os.Looper
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.asusoft.chatapp.R
+import com.asusoft.chatapp.activity.chatting.HomeActivity
 import com.asusoft.chatapp.api.domain.member.LoginDto
 import com.asusoft.chatapp.api.domain.member.ReadMemberDto
 import com.asusoft.chatapp.api.rx.ApiController
 import com.asusoft.chatapp.api.rx.member.MemberService
 import com.asusoft.chatapp.databinding.ActivityLoginBinding
-import retrofit2.HttpException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 
 class LoginActivity : AppCompatActivity() {
 
@@ -61,7 +64,11 @@ class LoginActivity : AppCompatActivity() {
                 val dto: ReadMemberDto = (result as? ReadMemberDto) ?: return@apiSubscribe
 //                Toast.makeText(this, dto.name, Toast.LENGTH_SHORT).show()
                 ApiController.toast(this, dto.name)
-                // TODO: - 채팅창으로 이동
+
+                val intent = Intent(baseContext, HomeActivity::class.java)
+                intent.putExtra("dto", dto)
+                startActivity(intent)
+
             }, {
                 // TODO: - 예외처리 공통로직 만들것
                 // 발견한 예외 HttpException, java.net.SocketTimeoutException

@@ -20,7 +20,7 @@ android {
 
     defaultConfig {
         applicationId "com.asusoft.chatapp"
-        minSdk 26
+        minSdk 28
         targetSdk 32
         versionCode 1
         versionName "1.0.0"
@@ -67,7 +67,7 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.2.0'
 
     // Gson
-    implementation 'com.google.code.gson:gson:2.8.6'
+//    implementation 'com.google.code.gson:gson:2.8.7'
 
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -80,11 +80,11 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-core:2.13.3"
     implementation "com.fasterxml.jackson.core:jackson-annotations:2.13.3"
     implementation "com.fasterxml.jackson.core:jackson-databind:2.13.3"
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.11.1"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3"
 
     // Basic SDK
     implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'

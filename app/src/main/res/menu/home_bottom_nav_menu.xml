@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/person"
+        android:icon="@drawable/ic_person_24"
+        android:title="@string/person" />
+
+    <item
+        android:id="@+id/bubble"
+        android:icon="@drawable/ic_chat_bubble_24"
+        android:title="@string/bubble"/>
+
+</menu>

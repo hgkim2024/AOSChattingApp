@@ -2,6 +2,7 @@ package com.asusoft.chatapp.api.rx
 
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -22,13 +23,13 @@ class RetrofitBuilder(
             .readTimeout(10L, TimeUnit.SECONDS)
             .writeTimeout(10L, TimeUnit.SECONDS)
 
-//            .addNetworkInterceptor(
-//                //로그 전부 찍음
-//                HttpLoggingInterceptor()
-//                    .setLevel(
-//                        HttpLoggingInterceptor.Level.BODY
-//                    )
-//            )
+            .addNetworkInterceptor(
+                //로그 전부 찍음
+                HttpLoggingInterceptor()
+                    .setLevel(
+                        HttpLoggingInterceptor.Level.BODY
+                    )
+            )
 
         return okHttpClientBuilder.build()
     }
