@@ -3,7 +3,7 @@ package com.asusoft.chatapp.activity.login
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.asusoft.chatapp.R
-import com.asusoft.chatapp.api.domain.member.CreateMemberDto
+import com.asusoft.chatapp.api.domain.member.MemberCreateDto
 import com.asusoft.chatapp.api.rx.ApiController
 import com.asusoft.chatapp.api.rx.member.MemberService
 import com.asusoft.chatapp.databinding.ActivitySignUpBinding
@@ -24,12 +24,12 @@ class SignUpActivity : AppCompatActivity() {
             val id = binding.tvId.text.toString()
             val pw = binding.tvPw.text.toString()
 
-            val dto = CreateMemberDto(name, id, pw)
+            val dto = MemberCreateDto(name, id, pw)
             signUp(dto)
         }
     }
 
-    private fun signUp(dto: CreateMemberDto) {
+    private fun signUp(dto: MemberCreateDto) {
         val api = MemberService.signUp(dto)
 
         ApiController.apiSubscribe(

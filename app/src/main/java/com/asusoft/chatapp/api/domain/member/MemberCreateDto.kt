@@ -1,6 +1,6 @@
 package com.asusoft.chatapp.api.domain.member
 
-class CreateMemberDto(
+class MemberCreateDto(
     var name: String?,
     var id: String?,
     var pw: String?

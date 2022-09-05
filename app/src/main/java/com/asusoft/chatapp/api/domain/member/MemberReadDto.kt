@@ -2,7 +2,7 @@ package com.asusoft.chatapp.api.domain.member
 
 import java.io.Serializable
 
-class ReadMemberDto(
+class MemberReadDto(
     var name: String?
 ): Serializable {
     override fun toString(): String {

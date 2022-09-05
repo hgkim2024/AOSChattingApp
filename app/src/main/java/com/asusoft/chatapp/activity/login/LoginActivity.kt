@@ -3,19 +3,15 @@ package com.asusoft.chatapp.activity.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Looper
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.asusoft.chatapp.R
 import com.asusoft.chatapp.activity.chatting.HomeActivity
 import com.asusoft.chatapp.api.domain.member.LoginDto
-import com.asusoft.chatapp.api.domain.member.ReadMemberDto
+import com.asusoft.chatapp.api.domain.member.MemberReadDto
 import com.asusoft.chatapp.api.rx.ApiController
 import com.asusoft.chatapp.api.rx.member.MemberService
 import com.asusoft.chatapp.databinding.ActivityLoginBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 
 class LoginActivity : AppCompatActivity() {
 
@@ -61,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
             api,
             this,
             { result ->
-                val dto: ReadMemberDto = (result as? ReadMemberDto) ?: return@apiSubscribe
+                val dto: MemberReadDto = (result as? MemberReadDto) ?: return@apiSubscribe
 //                Toast.makeText(this, dto.name, Toast.LENGTH_SHORT).show()
                 ApiController.toast(this, dto.name)
 
