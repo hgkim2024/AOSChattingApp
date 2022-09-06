@@ -19,8 +19,9 @@ interface FriendRepository {
         @Query("memberId") memberId: Long
     ): Observable<List<MemberReadDto>>
 
-    @POST("delete")
+    @POST("friend/delete")
     fun removeFriend(
+        @Query("memberId") memberId:Long,
         @Query("friendId") friendId: Long
     ): Observable<Long>
 

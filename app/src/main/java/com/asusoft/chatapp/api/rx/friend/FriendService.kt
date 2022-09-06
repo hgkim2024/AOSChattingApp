@@ -20,8 +20,8 @@ object FriendService {
         return friendRepository.getFriendList(memberId)
     }
 
-    fun removeFriend(friendId: Long): Observable<Long> {
-        return friendRepository.removeFriend(friendId)
+    fun removeFriend(memberId: Long, friendId: Long): Observable<Long> {
+        return friendRepository.removeFriend(memberId, friendId)
     }
 
 }

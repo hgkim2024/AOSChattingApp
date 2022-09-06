@@ -80,6 +80,23 @@ class FriendApiTest {
 
     @Test
     fun 친구삭제() {
+        val api = FriendService.removeFriend(1L, 2L)
+
+        ApiController.apiSubscribe(
+            api,
+            null,
+            { result ->
+                if (result !is Long) return@apiSubscribe
+                println("======================")
+                println("친구삭제 성공")
+                println("========================")
+            }, {
+                println("======================")
+                println("친구삭제 실패")
+                println(it)
+                println("========================")
+            }
+        )
 
         Thread.sleep(5000)
     }
