@@ -1,6 +1,6 @@
-package com.asusoft.chatapp.api.rx.friend
+package com.asusoft.chatapp.util.api.rx.friend
 
-import com.asusoft.chatapp.api.domain.member.MemberReadDto
+import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.POST

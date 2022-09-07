@@ -9,7 +9,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.asusoft.chatapp.R
-import com.asusoft.chatapp.api.domain.member.MemberReadDto
+import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
 import com.asusoft.chatapp.databinding.ActivityHomeBinding
 import com.asusoft.chatapp.fragment.ChatRoomFragment
 import com.asusoft.chatapp.fragment.FriendFragment
@@ -30,10 +30,11 @@ class HomeActivity : AppCompatActivity() {
 
         myInfo = intent.getSerializableExtra("myInfo") as MemberReadDto
 
-        friendFragment = FriendFragment()
-        chatRoomFragment = ChatRoomFragment()
+        friendFragment = FriendFragment.newInstance(myInfo)
+        chatRoomFragment = ChatRoomFragment.newInstance(myInfo)
 
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            //TODO: - 친구 추가 후 친구목록 갱신
 //            if (it.resultCode == RESULT_OK) {
 //
 //            }
@@ -43,9 +44,7 @@ class HomeActivity : AppCompatActivity() {
 
         binding.bottomTabBar.setOnItemSelectedListener { item ->
             when(item.itemId) {
-                R.id.person -> {
-                    setCurrentFragment(friendFragment)
-                }
+                R.id.person -> setCurrentFragment(friendFragment)
                 R.id.bubble -> setCurrentFragment(chatRoomFragment)
             }
             true

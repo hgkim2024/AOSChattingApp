@@ -1,8 +1,8 @@
-package com.asusoft.chatapp.api.rx.friend
+package com.asusoft.chatapp.util.api.rx.friend
 
-import com.asusoft.chatapp.api.domain.friend.FriendCreateDto
-import com.asusoft.chatapp.api.domain.member.MemberReadDto
-import com.asusoft.chatapp.api.rx.RetrofitClient
+import com.asusoft.chatapp.util.api.domain.friend.FriendCreateDto
+import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
+import com.asusoft.chatapp.util.api.rx.RetrofitClient
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.reactivex.Observable
 

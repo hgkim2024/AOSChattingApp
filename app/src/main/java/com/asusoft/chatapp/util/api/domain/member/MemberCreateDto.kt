@@ -1,4 +1,4 @@
-package com.asusoft.chatapp.api.domain.member
+package com.asusoft.chatapp.util.api.domain.member
 
 class MemberCreateDto(
     var name: String?,

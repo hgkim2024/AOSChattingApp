@@ -1,4 +1,4 @@
-package com.asusoft.chatapp.api.status
+package com.asusoft.chatapp.util.api.status
 
 enum class StatusCode(val code: Int) {
     Continue(100),

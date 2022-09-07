@@ -2,12 +2,11 @@ package com.asusoft.chatapp.activity.chatting
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import com.asusoft.chatapp.R
-import com.asusoft.chatapp.api.domain.friend.FriendCreateDto
-import com.asusoft.chatapp.api.domain.member.MemberReadDto
-import com.asusoft.chatapp.api.rx.ApiController
-import com.asusoft.chatapp.api.rx.friend.FriendService
+import com.asusoft.chatapp.util.api.domain.friend.FriendCreateDto
+import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
+import com.asusoft.chatapp.util.api.rx.ApiController
+import com.asusoft.chatapp.util.api.rx.friend.FriendService
 import com.asusoft.chatapp.databinding.ActivityAddFriendBinding
 
 class AddFriendActivity : AppCompatActivity() {

@@ -1,11 +1,9 @@
 package com.asusoft.chatapp.member
 
-import androidx.appcompat.app.AppCompatActivity
-import com.asusoft.chatapp.api.domain.friend.FriendCreateDto
-import com.asusoft.chatapp.api.domain.member.MemberReadDto
-import com.asusoft.chatapp.api.rx.ApiController
-import com.asusoft.chatapp.api.rx.friend.FriendService
-import com.asusoft.chatapp.api.rx.member.MemberService
+import com.asusoft.chatapp.util.api.domain.friend.FriendCreateDto
+import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
+import com.asusoft.chatapp.util.api.rx.ApiController
+import com.asusoft.chatapp.util.api.rx.friend.FriendService
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers

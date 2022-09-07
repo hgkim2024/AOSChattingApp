@@ -1,4 +1,4 @@
-package com.asusoft.chatapp.eventbus
+package com.asusoft.chatapp.util.eventbus
 
 import org.greenrobot.eventbus.EventBus
 

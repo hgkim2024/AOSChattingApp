@@ -1,9 +1,9 @@
-package com.asusoft.chatapp.api.rx.member
+package com.asusoft.chatapp.util.api.rx.member
 
-import com.asusoft.chatapp.api.domain.member.MemberCreateDto
-import com.asusoft.chatapp.api.domain.member.LoginDto
-import com.asusoft.chatapp.api.domain.member.MemberReadDto
-import com.asusoft.chatapp.api.rx.RetrofitClient
+import com.asusoft.chatapp.util.api.domain.member.MemberCreateDto
+import com.asusoft.chatapp.util.api.domain.member.LoginDto
+import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
+import com.asusoft.chatapp.util.api.rx.RetrofitClient
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.reactivex.Observable
 

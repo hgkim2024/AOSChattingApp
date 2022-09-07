@@ -1,4 +1,4 @@
-package com.asusoft.chatapp.api.domain.friend
+package com.asusoft.chatapp.util.api.domain.friend
 
 class FriendCreateDto(
     var myId: Long?,

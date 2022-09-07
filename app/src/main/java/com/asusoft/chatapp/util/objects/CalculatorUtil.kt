@@ -1,4 +1,4 @@
-package com.asusoft.chatapp.objects
+package com.asusoft.chatapp.util.objects
 
 import android.R
 import android.util.DisplayMetrics

@@ -3,9 +3,9 @@ package com.asusoft.chatapp.activity.login
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.asusoft.chatapp.R
-import com.asusoft.chatapp.api.domain.member.MemberCreateDto
-import com.asusoft.chatapp.api.rx.ApiController
-import com.asusoft.chatapp.api.rx.member.MemberService
+import com.asusoft.chatapp.util.api.domain.member.MemberCreateDto
+import com.asusoft.chatapp.util.api.rx.ApiController
+import com.asusoft.chatapp.util.api.rx.member.MemberService
 import com.asusoft.chatapp.databinding.ActivitySignUpBinding
 
 class SignUpActivity : AppCompatActivity() {

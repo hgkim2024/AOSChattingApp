@@ -1,7 +1,7 @@
-package com.asusoft.chatapp.api.rx
+package com.asusoft.chatapp.util.api.rx
 
-import com.asusoft.chatapp.api.rx.friend.FriendRepository
-import com.asusoft.chatapp.api.rx.member.MemberRepository
+import com.asusoft.chatapp.util.api.rx.friend.FriendRepository
+import com.asusoft.chatapp.util.api.rx.member.MemberRepository
 
 object RetrofitClient {
 

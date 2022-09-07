@@ -7,10 +7,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.asusoft.chatapp.R
 import com.asusoft.chatapp.activity.chatting.HomeActivity
-import com.asusoft.chatapp.api.domain.member.LoginDto
-import com.asusoft.chatapp.api.domain.member.MemberReadDto
-import com.asusoft.chatapp.api.rx.ApiController
-import com.asusoft.chatapp.api.rx.member.MemberService
+import com.asusoft.chatapp.util.api.domain.member.LoginDto
+import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
+import com.asusoft.chatapp.util.api.rx.ApiController
+import com.asusoft.chatapp.util.api.rx.member.MemberService
 import com.asusoft.chatapp.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {

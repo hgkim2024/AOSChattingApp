@@ -2,7 +2,7 @@ package com.asusoft.chatapp.application
 
 import android.app.Application
 import android.content.Context
-import com.asusoft.chatapp.objects.CalculatorUtil
+import com.asusoft.chatapp.util.objects.CalculatorUtil
 import io.realm.Realm
 
 class ChattingApplication: Application() {

@@ -1,4 +1,4 @@
-package com.asusoft.chatapp.api.rx
+package com.asusoft.chatapp.util.api.rx
 
 import android.app.Activity
 import android.content.Context
@@ -8,13 +8,12 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import com.asusoft.chatapp.R
-import com.asusoft.chatapp.extension.removeFromSuperView
+import com.asusoft.chatapp.util.extension.removeFromSuperView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import retrofit2.HttpException
 
 object ApiController {
 

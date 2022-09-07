@@ -1,4 +1,4 @@
-package com.asusoft.chatapp.extension
+package com.asusoft.chatapp.util.extension
 
 import android.view.View
 import android.view.ViewGroup

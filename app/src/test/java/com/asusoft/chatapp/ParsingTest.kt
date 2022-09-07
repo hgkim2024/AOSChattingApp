@@ -1,6 +1,6 @@
 package com.asusoft.chatapp
 
-import com.asusoft.chatapp.api.domain.member.MemberCreateDto
+import com.asusoft.chatapp.util.api.domain.member.MemberCreateDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.Test
 

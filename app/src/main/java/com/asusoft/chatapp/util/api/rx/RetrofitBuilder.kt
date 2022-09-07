@@ -1,4 +1,4 @@
-package com.asusoft.chatapp.api.rx
+package com.asusoft.chatapp.util.api.rx
 
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
