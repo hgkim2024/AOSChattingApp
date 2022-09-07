@@ -20,7 +20,7 @@ class SignUpActivity : AppCompatActivity() {
         supportActionBar?.title = getString(R.string.signup_text)
 
         binding.btnSignUp.setOnClickListener {
-            val name = binding.tvNickName.text.toString()
+            val name = binding.tvName.text.toString()
             val id = binding.tvId.text.toString()
             val pw = binding.tvPw.text.toString()
 

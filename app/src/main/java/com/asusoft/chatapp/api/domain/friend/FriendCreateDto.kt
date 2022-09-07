@@ -2,9 +2,9 @@ package com.asusoft.chatapp.api.domain.friend
 
 class FriendCreateDto(
     var myId: Long?,
-    var friendId: Long?
+    var friendName: String?
 ) {
     override fun toString(): String {
-        return "FriendCreateDto(myId=$myId, friendId=$friendId)"
+        return "FriendCreateDto(myId=$myId, friendName=$friendName)"
     }
 }

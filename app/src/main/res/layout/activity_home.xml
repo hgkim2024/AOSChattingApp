@@ -26,6 +26,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:labelVisibilityMode="unlabeled"
         app:itemIconSize="30dp"
-        app:menu="@menu/home_bottom_nav_menu"/>
+        app:menu="@menu/menu_bottom_tab"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

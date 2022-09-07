@@ -12,8 +12,13 @@
     <!--  홈화면  -->
     <string name="person">Person</string>
     <string name="bubble">bubble</string>
+    <string name="add_friend_title">닉네임으로 추가</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_friend_hint">친구 닉네임</string>
+    <string name="add_friend_btn">친구추가</string>
 
 
 </resources>

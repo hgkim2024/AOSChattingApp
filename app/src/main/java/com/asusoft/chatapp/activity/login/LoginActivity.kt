@@ -62,8 +62,9 @@ class LoginActivity : AppCompatActivity() {
                 ApiController.toast(this, dto.name)
 
                 val intent = Intent(baseContext, HomeActivity::class.java)
-                intent.putExtra("dto", dto)
+                intent.putExtra("myInfo", dto)
                 startActivity(intent)
+                finish()
 
             }, {
                 // TODO: - 예외처리 공통로직 만들것
