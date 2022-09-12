@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.fragment.app.Fragment
 import com.asusoft.chatapp.R
 import com.asusoft.chatapp.util.extension.removeFromSuperView
 import com.google.android.material.progressindicator.CircularProgressIndicator
@@ -24,7 +25,7 @@ object ApiController {
         fail: (e: Throwable) -> Unit
     ): Disposable {
         val indicator: List<View>?
-        indicator = createIndicator(context)
+        indicator = createActivityIndicator(context)
 
         return any
             .subscribeOn(Schedulers.io())
@@ -42,15 +43,55 @@ object ApiController {
 
     }
 
-    fun toast(ctx: Context, msg: String?) {
+    fun <T> apiSubscribe(
+        any: Observable<T>,
+        fragment: Fragment,
+        success: (Any?) -> Unit,
+        fail: (e: Throwable) -> Unit
+    ): Disposable {
+        val indicator: List<View>?
+        indicator = createFragmentIndicator(fragment)
+
+        return any
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { result ->
+                    removeViewList(indicator)
+                    success(result)
+                },
+                { error ->
+                    removeViewList(indicator)
+                    fail(error)
+                }
+            )
+
+    }
+
+    fun toast(ctx: Context?, msg: String?) {
+        if (ctx == null) return
         Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show()
     }
 
-    private fun createIndicator(context: Context?): List<View> {
+    private fun createActivityIndicator(context: Context?): List<View> {
         val ctx = context ?: return ArrayList()
         val activity = (ctx as? Activity) ?: return ArrayList()
         val rootView = activity.window.decorView.rootView
-        val rootLayout = rootView.findViewById<ConstraintLayout>(R.id.root)
+        return createViewIndicator(ctx, rootView)
+    }
+
+    private fun createFragmentIndicator(fragment: Fragment): List<View> {
+        return createViewIndicator(fragment.context, fragment.view)
+    }
+
+    private fun createViewIndicator(
+        context: Context?,
+        rootView: View?
+    ): List<View> {
+        val ctx = context ?: return ArrayList()
+        val root = rootView ?: return ArrayList()
+
+        val rootLayout = root.findViewById<ConstraintLayout>(R.id.root)
 
         val backgroundView = ConstraintLayout(ctx)
         backgroundView.id = View.generateViewId()

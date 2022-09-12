@@ -44,11 +44,18 @@ class HomeActivity : AppCompatActivity() {
 
         binding.bottomTabBar.setOnItemSelectedListener { item ->
             when(item.itemId) {
-                R.id.person -> setCurrentFragment(friendFragment)
+                R.id.person -> {
+                    setCurrentFragment(friendFragment)
+                }
                 R.id.bubble -> setCurrentFragment(chatRoomFragment)
             }
             true
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setCurrentFragment(friendFragment)
     }
 
     private fun setCurrentFragment(fragment: Fragment) {
