@@ -5,8 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.asusoft.chatapp.R
+import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
 import com.asusoft.chatapp.util.recyclerview.RecyclerViewType.*
 import com.asusoft.chatapp.util.recyclerview.holder.EmptyHolder
+import com.asusoft.chatapp.util.recyclerview.holder.FriendHeaderHolder
 import com.asusoft.chatapp.util.recyclerview.holder.FriendHolder
 
 class RecyclerViewAdapter(
@@ -28,6 +30,13 @@ class RecyclerViewAdapter(
         val item = list[position]
 
         return when(type) {
+            FRIEND -> {
+                if (item is MemberReadDto)
+                    0
+                else
+                    1
+            }
+
             else -> 0
         }
     }
@@ -38,8 +47,17 @@ class RecyclerViewAdapter(
 
         return when(type) {
             FRIEND -> {
-                val view = inflater.inflate(R.layout.list_friend, parent, false)
-                FriendHolder(view)
+                when(viewType) {
+                    0 -> {
+                        val view = inflater.inflate(R.layout.list_friend, parent, false)
+                        FriendHolder(view)
+                    }
+
+                    else -> {
+                        val view = inflater.inflate(R.layout.list_header_friend, parent, false)
+                        FriendHeaderHolder(view)
+                    }
+                }
             }
 
             DEFAULT -> {
@@ -51,7 +69,10 @@ class RecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(type) {
-            FRIEND -> (holder as FriendHolder).bind(position, this)
+            FRIEND -> when(holder) {
+                is FriendHolder -> holder.bind(position, this)
+                is FriendHeaderHolder -> holder.bind(position, this)
+            }
             DEFAULT -> (holder as EmptyHolder).bind(position, this)
         }
     }

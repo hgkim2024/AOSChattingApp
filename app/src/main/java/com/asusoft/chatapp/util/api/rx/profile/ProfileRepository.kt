@@ -1,5 +1,6 @@
 package com.asusoft.chatapp.util.api.rx.profile
 
+import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
 import io.reactivex.Observable
 import okhttp3.MultipartBody
 import retrofit2.http.*
@@ -12,6 +13,6 @@ interface ProfileRepository {
     fun upload(
         @Query("memberId") memberId: Long,
         @Part file: MultipartBody.Part
-    ): Observable<Long>
+    ): Observable<MemberReadDto>
 
 }

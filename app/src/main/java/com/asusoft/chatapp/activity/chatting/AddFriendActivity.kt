@@ -1,13 +1,19 @@
 package com.asusoft.chatapp.activity.chatting
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.asusoft.chatapp.R
+import com.asusoft.chatapp.application.ChattingApplication
 import com.asusoft.chatapp.util.api.domain.friend.FriendCreateDto
 import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
 import com.asusoft.chatapp.util.api.rx.ApiController
 import com.asusoft.chatapp.util.api.rx.friend.FriendService
 import com.asusoft.chatapp.databinding.ActivityAddFriendBinding
+import com.asusoft.chatapp.util.extension.onClick
+import com.jakewharton.rxbinding4.view.clicks
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import java.util.concurrent.TimeUnit
 
 class AddFriendActivity : AppCompatActivity() {
 
@@ -24,7 +30,7 @@ class AddFriendActivity : AppCompatActivity() {
 
         supportActionBar?.title = getString(R.string.add_friend_title)
 
-        binding.btnSend.setOnClickListener {
+        binding.btnSend.onClick {
             val myId = myInfo.id
             val friendName = binding.tvName.text.toString()
             val dto = FriendCreateDto(myId, friendName)

@@ -1,5 +1,6 @@
 package com.asusoft.chatapp.util.api.rx.profile
 
+import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
 import com.asusoft.chatapp.util.api.rx.RetrofitClient
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.reactivex.Observable
@@ -14,7 +15,7 @@ object ProfileService {
     public fun upload(
         memberId: Long,
         part: MultipartBody.Part
-    ): Observable<Long> {
+    ): Observable<MemberReadDto> {
         return profileRepository.upload(memberId, part)
     }
 

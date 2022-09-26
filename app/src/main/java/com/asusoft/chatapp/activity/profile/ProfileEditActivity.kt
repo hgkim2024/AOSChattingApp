@@ -1,48 +1,51 @@
-package com.asusoft.chatapp.activity.login
+package com.asusoft.chatapp.activity.profile
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.ImageDecoder
 import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import com.asusoft.chatapp.R
-import com.asusoft.chatapp.activity.chatting.HomeActivity
 import com.asusoft.chatapp.application.ChattingApplication
-import com.asusoft.chatapp.databinding.ActivitySignUpBinding
-import com.asusoft.chatapp.util.api.domain.member.MemberCreateDto
+import com.asusoft.chatapp.databinding.ActivityProfileEditBinding
 import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
 import com.asusoft.chatapp.util.api.rx.ApiController
-import com.asusoft.chatapp.util.api.rx.member.MemberService
 import com.asusoft.chatapp.util.api.rx.profile.ProfileService
+import com.asusoft.chatapp.util.extension.imageLoad
 import com.asusoft.chatapp.util.extension.onClick
+import com.bumptech.glide.Glide
 import com.jakewharton.rxbinding4.view.clicks
 import com.soundcloud.android.crop.Crop
-import com.soundcloud.android.crop.CropImageActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-class SignUpActivity : AppCompatActivity() {
+class ProfileEditActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySignUpBinding
+    private lateinit var binding: ActivityProfileEditBinding
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var resultPickerLauncher: ActivityResultLauncher<Intent>
 
+    private lateinit var myInfo: MemberReadDto
     private var destination: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySignUpBinding.inflate(layoutInflater)
+        binding = ActivityProfileEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = getString(R.string.signup_text)
+        if (supportActionBar != null) {
+            supportActionBar?.hide()
+        }
+
+        myInfo = intent.getSerializableExtra("myInfo") as MemberReadDto
+        binding.iv.imageLoad(this, myInfo.profileUrl, R.drawable.ic_person_24)
+        binding.tv.text = myInfo.name
 
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -68,13 +71,18 @@ class SignUpActivity : AppCompatActivity() {
                 binding.iv.setImageBitmap(bitmap)
             }
 
-        binding.btnSignUp.onClick {
-            val name = binding.tvName.text.toString()
-            val id = binding.tvId.text.toString()
-            val pw = binding.tvPw.text.toString()
+        binding.cancel.onClick {
+            setResult(RESULT_CANCELED)
+            finish()
+        }
 
-            val dto = MemberCreateDto(name, id, pw)
-            signUp(dto)
+        binding.confirm.onClick {
+            if (destination == null) {
+                setResult(RESULT_CANCELED)
+                finish()
+            } else {
+                profileUpload()
+            }
         }
 
         binding.card.onClick {
@@ -84,33 +92,12 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun signUp(dto: MemberCreateDto) {
-        val api = MemberService.signUp(dto)
-
-        ApiController.apiSubscribe(
-            api,
-            this,
-            { result ->
-                if (result !is Long) return@apiSubscribe
-
-                ApiController.toast(this, "회원가입 되었습니다.")
-                if (destination == null) {
-                    setResult(RESULT_OK)
-                    finish()
-                } else {
-                    profileUpload(result)
-                }
-            }, {
-                ApiController.toast(this, "이미 가입한 회원의 아이디 또는 닉네임입니다.")
-            }
-        )
-    }
-
-    private fun profileUpload(memberId: Long) {
+    private fun profileUpload() {
+        val memberId = myInfo.id
         val inputStream = contentResolver.openInputStream(destination!!)
 
-        if (inputStream == null) {
-            setResult(RESULT_OK)
+        if (inputStream == null || memberId == null) {
+            setResult(RESULT_CANCELED)
             finish()
             return
         }
@@ -127,9 +114,13 @@ class SignUpActivity : AppCompatActivity() {
         ApiController.apiSubscribe(
             api,
             this,
-            { _ ->
+            { result ->
                 ApiController.toast(this, "프로필 업로드 성공")
-                setResult(RESULT_OK)
+                val intent = Intent()
+                if (result is MemberReadDto) {
+                    intent.putExtra("myInfo", result)
+                }
+                setResult(RESULT_OK, intent)
                 finish()
             }, {
                 ApiController.toast(this, "프로필 업로드 실패")

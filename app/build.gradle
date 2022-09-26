@@ -59,9 +59,9 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
 
     // rxjava
-//    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-//    implementation "io.reactivex.rxjava3:rxjava:3.0.8"
-//    implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation "io.reactivex.rxjava3:rxjava:3.0.8"
+    implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
 
     // Event Bus
     implementation 'org.greenrobot:eventbus:3.2.0'
@@ -84,6 +84,10 @@ dependencies {
 
     // photo crop
     implementation 'com.soundcloud.android:android-crop:1.0.1@aar'
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
 
     // Basic SDK
     implementation 'androidx.core:core-ktx:1.8.0'

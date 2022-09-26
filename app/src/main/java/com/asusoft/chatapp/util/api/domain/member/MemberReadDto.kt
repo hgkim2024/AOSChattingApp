@@ -4,9 +4,10 @@ import java.io.Serializable
 
 class MemberReadDto(
     var id: Long?,
-    var name: String?
+    var name: String?,
+    var profileUrl: String?
 ): Serializable {
     override fun toString(): String {
-        return "MemberReadDto(id=$id, name=$name)"
+        return "MemberReadDto(id=$id, name=$name, profileUrl=$profileUrl)"
     }
 }

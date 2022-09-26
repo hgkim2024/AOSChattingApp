@@ -9,6 +9,7 @@ class ChattingApplication: Application() {
     companion object {
 
         lateinit var instance: ChattingApplication
+        const val THROTTLE = 1000L
 
         fun getContext(): Context {
             return instance.baseContext

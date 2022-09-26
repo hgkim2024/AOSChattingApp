@@ -7,11 +7,16 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.asusoft.chatapp.R
 import com.asusoft.chatapp.activity.chatting.HomeActivity
+import com.asusoft.chatapp.application.ChattingApplication
 import com.asusoft.chatapp.util.api.domain.member.LoginDto
 import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
 import com.asusoft.chatapp.util.api.rx.ApiController
 import com.asusoft.chatapp.util.api.rx.member.MemberService
 import com.asusoft.chatapp.databinding.ActivityLoginBinding
+import com.asusoft.chatapp.util.extension.onClick
+import com.jakewharton.rxbinding4.view.clicks
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import java.util.concurrent.TimeUnit
 
 class LoginActivity : AppCompatActivity() {
 
@@ -35,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
 //            }
         }
 
-        binding.btnLogin.setOnClickListener {
+        binding.btnLogin.onClick {
             val id = binding.tvId.text.toString()
             val pw = binding.tvPw.text.toString()
 
@@ -43,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
             login(dto)
         }
 
-        binding.btnSignUp.setOnClickListener {
+        binding.btnSignUp.onClick {
             val intent = Intent(this, SignUpActivity::class.java)
             resultLauncher.launch(intent)
 //            overridePendingTransition(androidx.appcompat.R.anim.abc_popup_enter, androidx.appcompat.R.anim.abc_fade_in)
