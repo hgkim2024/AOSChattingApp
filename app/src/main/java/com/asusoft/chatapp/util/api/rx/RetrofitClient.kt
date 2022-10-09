@@ -1,5 +1,6 @@
 package com.asusoft.chatapp.util.api.rx
 
+import com.asusoft.chatapp.util.api.rx.chatroom.ChatRoomRepository
 import com.asusoft.chatapp.util.api.rx.friend.FriendRepository
 import com.asusoft.chatapp.util.api.rx.member.MemberRepository
 import com.asusoft.chatapp.util.api.rx.profile.ProfileRepository
@@ -23,6 +24,10 @@ object RetrofitClient {
 
             "ProfileRepository" -> {
                 retrofit.create(ProfileRepository::class.java)
+            }
+
+            "ChatRoomRepository" -> {
+                retrofit.create(ChatRoomRepository::class.java)
             }
 
             else -> throw Exception("getInstanceAPI error")

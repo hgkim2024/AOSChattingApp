@@ -10,17 +10,17 @@ import retrofit2.http.QueryMap
 interface FriendRepository {
 
     @POST("friend/addFriend")
-    fun addFriend(
+    fun add(
         @QueryMap map: Map<String, String>
     ): Observable<Long>
 
     @GET("friend")
-    fun getFriendList(
+    fun list(
         @Query("memberId") memberId: Long
     ): Observable<List<MemberReadDto>>
 
     @POST("friend/delete")
-    fun removeFriend(
+    fun remove(
         @Query("memberId") memberId:Long,
         @Query("friendId") friendId: Long
     ): Observable<Long>

@@ -33,7 +33,7 @@ class FriendApiTest {
     fun 친구추가() {
 
         val dto = FriendCreateDto(1L, 2L)
-        val api = FriendService.addFriend(dto)
+        val api = FriendService.add(dto)
 
         ApiController.apiSubscribe(
             api,
@@ -55,7 +55,7 @@ class FriendApiTest {
 
     @Test
     fun 친구리스트() {
-        val api = FriendService.getFriendList(1L)
+        val api = FriendService.list(1L)
 
         ApiController.apiSubscribe(
             api,
@@ -78,7 +78,7 @@ class FriendApiTest {
 
     @Test
     fun 친구삭제() {
-        val api = FriendService.removeFriend(1L, 2L)
+        val api = FriendService.remove(1L, 2L)
 
         ApiController.apiSubscribe(
             api,

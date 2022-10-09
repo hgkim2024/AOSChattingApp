@@ -9,22 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.asusoft.chatapp.R
-import com.asusoft.chatapp.activity.login.SignUpActivity
+import com.asusoft.chatapp.activity.chatting.ChattingActivity
 import com.asusoft.chatapp.activity.profile.ProfileActivity
 import com.asusoft.chatapp.databinding.FragmentFriendBinding
+import com.asusoft.chatapp.util.api.domain.chatroom.ChatRoomCreateDto
+import com.asusoft.chatapp.util.api.domain.chatroom.ChatRoomReadDto
 import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
 import com.asusoft.chatapp.util.api.rx.ApiController
+import com.asusoft.chatapp.util.api.rx.chatroom.ChatRoomService
 import com.asusoft.chatapp.util.api.rx.friend.FriendService
-import com.asusoft.chatapp.util.extension.imageLoad
 import com.asusoft.chatapp.util.recyclerview.RecyclerItemClickListener
 import com.asusoft.chatapp.util.recyclerview.RecyclerViewAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 
 class FriendFragment : Fragment() {
 
@@ -59,7 +55,7 @@ class FriendFragment : Fragment() {
     ): View {
         binding = FragmentFriendBinding.inflate(inflater, container, false)
 
-        adapter = RecyclerViewAdapter(this, friendList)
+        adapter = RecyclerViewAdapter(this, friendList, myInfo)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
@@ -86,25 +82,25 @@ class FriendFragment : Fragment() {
     }
 
     private fun updateFriendList() {
-        myInfo ?: return
-        if (myInfo.id != null) {
-            val api = FriendService.getFriendList(myInfo.id!!)
+        myInfo.id ?: return
 
-            ApiController.apiSubscribe(
-                api,
-                this,
-                { result ->
-                    friendList = result as? ArrayList<Any> ?: return@apiSubscribe
-                    friendList.add(0, "친구 ${friendList.size}")
-                    friendList.add(0, myInfo)
-                    adapter.list = friendList
-                    adapter.notifyDataSetChanged()
-                }, {
-                    ApiController.toast(context, "친구목록 불러오기 실패")
-                }
-            )
-        }
+        val api = FriendService.list(myInfo.id!!)
+
+        ApiController.apiSubscribe(
+            api,
+            this,
+            { result ->
+                friendList = result as? ArrayList<Any> ?: return@apiSubscribe
+                friendList.add(0, "친구 ${friendList.size}")
+                friendList.add(0, myInfo)
+                adapter.list = friendList
+                adapter.notifyDataSetChanged()
+            }, {
+                ApiController.toast(context, "친구목록 불러오기 실패")
+            }
+        )
     }
+
 
     companion object {
         @JvmStatic

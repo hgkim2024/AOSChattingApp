@@ -3,14 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2455" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.2915" />
+        <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/drawable/ic_chat_bubble_24.xml" value="0.1755" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/drawable/ic_edit_24.xml" value="0.247" />
+        <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2455" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/drawable/ic_person_24.xml" value="0.2" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/drawable/ic_person_add_24.xml" value="0.2915" />
+        <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/drawable/rounded_white.xml" value="0.2455" />
+        <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/drawable/rounded_yellow.xml" value="0.2455" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout-land/activity_profile_pull_screen.xml" value="0.5891891891891892" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/activity_add_friend.xml" value="0.32653985507246375" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/activity_chatting.xml" value="0.3753041362530414" />
-        <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/activity_home.xml" value="0.32135416666666666" />
+        <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/activity_home.xml" value="0.33" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/activity_login.xml" value="0.286231884057971" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/activity_main.xml" value="0.36730072463768115" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/activity_profile.xml" value="0.33" />
@@ -21,11 +26,15 @@
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/fragment_chat_room.xml" value="0.32135416666666666" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/fragment_freind.xml" value="0.32135416666666666" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/fragment_friend.xml" value="0.31431159420289856" />
+        <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/list_chat_room.xml" value="0.41318477251624885" />
+        <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/list_chatting_friend.xml" value="1.146484375" />
+        <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/list_chatting_my.xml" value="0.5" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/list_friend.xml" value="0.33" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/layout/list_header_friend.xml" value="1.1893305439330544" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/menu/home_bottom_nav_menu.xml" value="0.3203125" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/menu/home_side_button_menu.xml" value="0.5203125" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/menu/menu_bottom_tab.xml" value="0.5213541666666667" />
+        <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/menu/menu_side.xml" value="1.146484375" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.268" />
         <entry key="..\:/Users/gusrn/Documents/ChatApp/app/src/main/res/xml/network_security_config.xml" value="0.286231884057971" />
       </map>

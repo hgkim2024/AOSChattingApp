@@ -109,7 +109,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_marginBottom="25dp"
-                        android:src="@drawable/ic_edit_24"/>
+                        android:src="@drawable/ic_edit_24"
+                        app:tint="@color/white" />
 
                     <TextView
                         android:id="@+id/tv_btn_center"

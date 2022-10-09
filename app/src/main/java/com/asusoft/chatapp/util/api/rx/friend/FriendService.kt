@@ -11,17 +11,17 @@ object FriendService {
     private val friendRepository: FriendRepository = RetrofitClient.getInstanceAPI("FriendRepository") as FriendRepository
     private val objectMapper = ObjectMapper()
 
-    fun addFriend(dto: FriendCreateDto): Observable<Long> {
+    fun add(dto: FriendCreateDto): Observable<Long> {
         val map = objectMapper.convertValue(dto, Map::class.java) as Map<String, String>
-        return friendRepository.addFriend(map)
+        return friendRepository.add(map)
     }
 
-    fun getFriendList(memberId: Long): Observable<List<MemberReadDto>> {
-        return friendRepository.getFriendList(memberId)
+    fun list(memberId: Long): Observable<List<MemberReadDto>> {
+        return friendRepository.list(memberId)
     }
 
-    fun removeFriend(memberId: Long, friendId: Long): Observable<Long> {
-        return friendRepository.removeFriend(memberId, friendId)
+    fun remove(memberId: Long, friendId: Long): Observable<Long> {
+        return friendRepository.remove(memberId, friendId)
     }
 
 }

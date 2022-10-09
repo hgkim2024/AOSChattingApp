@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.asusoft.chatapp.R
 import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
 import com.asusoft.chatapp.util.recyclerview.RecyclerViewType.*
-import com.asusoft.chatapp.util.recyclerview.holder.EmptyHolder
-import com.asusoft.chatapp.util.recyclerview.holder.FriendHeaderHolder
-import com.asusoft.chatapp.util.recyclerview.holder.FriendHolder
+import com.asusoft.chatapp.util.recyclerview.holder.*
 
 class RecyclerViewAdapter(
     private val typeObject: Any,
-    var list: ArrayList<Any>
+    var list: ArrayList<Any>,
+    var myInfo: MemberReadDto,
+    var friendInfo: MemberReadDto? = null
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         // 클릭 이펙트 딜레이
@@ -35,6 +35,17 @@ class RecyclerViewAdapter(
                     0
                 else
                     1
+            }
+
+            CHATTING -> {
+                if ((friendInfo != null) && (item is MemberReadDto)) {
+                    return if (item.id == myInfo.id)
+                        0
+                    else
+                        1
+                }
+
+                0
             }
 
             else -> 0
@@ -60,6 +71,25 @@ class RecyclerViewAdapter(
                 }
             }
 
+            CHATROOM -> {
+                val view = inflater.inflate(R.layout.list_chat_room, parent, false)
+                ChatRoomHolder(view)
+            }
+
+            CHATTING -> {
+                when(viewType) {
+                    0 -> {
+                        val view = inflater.inflate(R.layout.list_chatting_my, parent, false)
+                        ChattingMyHolder(view)
+                    }
+
+                    else -> {
+                        val view = inflater.inflate(R.layout.list_chatting_friend, parent, false)
+                        ChattingFriendHolder(view)
+                    }
+                }
+            }
+
             DEFAULT -> {
                 val view = View(ctx)
                 EmptyHolder(view)
@@ -73,6 +103,12 @@ class RecyclerViewAdapter(
                 is FriendHolder -> holder.bind(position, this)
                 is FriendHeaderHolder -> holder.bind(position, this)
             }
+            CHATROOM -> (holder as ChatRoomHolder).bind(position, this)
+            CHATTING -> when(holder) {
+                is ChattingMyHolder -> holder.bind(position, this)
+                is ChattingFriendHolder -> holder.bind(position, this)
+            }
+
             DEFAULT -> (holder as EmptyHolder).bind(position, this)
         }
     }

@@ -3,20 +3,19 @@ package com.asusoft.chatapp.activity.profile
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import com.asusoft.chatapp.R
-import com.asusoft.chatapp.activity.login.SignUpActivity
-import com.asusoft.chatapp.application.ChattingApplication
+import com.asusoft.chatapp.activity.chatting.ChattingActivity
 import com.asusoft.chatapp.databinding.ActivityProfileBinding
+import com.asusoft.chatapp.util.api.domain.chatroom.ChatRoomCreateDto
+import com.asusoft.chatapp.util.api.domain.chatroom.ChatRoomReadDto
 import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
+import com.asusoft.chatapp.util.api.rx.ApiController
+import com.asusoft.chatapp.util.api.rx.chatroom.ChatRoomService
 import com.asusoft.chatapp.util.extension.imageLoad
 import com.asusoft.chatapp.util.extension.onClick
-import com.bumptech.glide.Glide
-import com.jakewharton.rxbinding4.view.clicks
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import java.util.concurrent.TimeUnit
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -40,6 +39,11 @@ class ProfileActivity : AppCompatActivity() {
         myInfo = intent.getSerializableExtra("myInfo") as MemberReadDto
         clickInfo = intent.getSerializableExtra("clickInfo") as MemberReadDto
 
+        if(myInfo.id != clickInfo.id) {
+            binding.ivBtnCenter.setImageDrawable(ContextCompat.getDrawable(baseContext, R.drawable.ic_chat_bubble_24))
+            binding.tvBtnCenter.text = "1:1 채팅"
+        }
+
         binding.iv.imageLoad(this, clickInfo.profileUrl, R.drawable.ic_person_24)
         binding.tv.text = clickInfo.name
 
@@ -59,6 +63,8 @@ class ProfileActivity : AppCompatActivity() {
                 intent.putExtra("myInfo", myInfo)
                 resultLauncher.launch(intent)
                 overridePendingTransition(androidx.appcompat.R.anim.abc_fade_in, androidx.appcompat.R.anim.abc_fade_in)
+            } else {
+                enterChatRoom(clickInfo)
             }
         }
 
@@ -71,6 +77,73 @@ class ProfileActivity : AppCompatActivity() {
                 isEdit = true
             }
         }
+    }
+
+
+    private fun createChatRoom(friend: MemberReadDto) {
+        myInfo.id ?: return
+        friend.id ?: return
+
+        val dto = ChatRoomCreateDto("", myInfo.id!!, friend.id!!)
+        val api = ChatRoomService.create(dto)
+
+        ApiController.apiSubscribe(
+            api,
+            this,
+            { result ->
+                val chatRoom = result as? ChatRoomReadDto ?: return@apiSubscribe
+                startChattingActivity(friend, chatRoom)
+            }, {
+                ApiController.toast(baseContext, "친구목록 불러오기 실패")
+            }
+        )
+    }
+
+    private fun enterChatRoom(friend: MemberReadDto) {
+        myInfo.id ?: return
+
+        val api = ChatRoomService.list(myInfo.id!!)
+
+        ApiController.apiSubscribe(
+            api,
+            this,
+            { result ->
+                val chatRoomList = result as? ArrayList<ChatRoomReadDto> ?: return@apiSubscribe
+                val chatRoom = isChatRoom(friend, chatRoomList)
+                if(chatRoom == null) {
+                    createChatRoom(friend)
+                } else {
+                    startChattingActivity(friend, chatRoom)
+                }
+            }, {
+                ApiController.toast(baseContext, "친구목록 불러오기 실패")
+            }
+        )
+    }
+
+    private fun startChattingActivity(
+        friend: MemberReadDto,
+        chatRoom: ChatRoomReadDto
+    ) {
+        val intent = Intent(baseContext, ChattingActivity::class.java)
+        intent.putExtra("chatRoom", chatRoom)
+        intent.putExtra("myInfo", myInfo)
+        intent.putExtra("friendInfo", friend)
+
+        resultLauncher.launch(intent)
+    }
+
+    private fun isChatRoom(
+        friend: MemberReadDto,
+        chatRoomList:List<ChatRoomReadDto>
+    ): ChatRoomReadDto? {
+        chatRoomList.forEach {
+            if (friend.id == it.getFriend(myInfo)?.id) {
+                return it
+            }
+        }
+
+        return null
     }
 
     override fun onBackPressed() {
