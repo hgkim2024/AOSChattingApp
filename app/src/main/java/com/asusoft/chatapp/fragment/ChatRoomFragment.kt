@@ -1,6 +1,5 @@
 package com.asusoft.chatapp.fragment
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,9 +9,9 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.asusoft.chatapp.R
-import com.asusoft.chatapp.activity.profile.ProfileActivity
+import com.asusoft.chatapp.activity.chatting.ChattingActivity
 import com.asusoft.chatapp.databinding.FragmentChatRoomBinding
+import com.asusoft.chatapp.util.api.domain.chatroom.ChatRoomReadDto
 import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
 import com.asusoft.chatapp.util.api.rx.ApiController
 import com.asusoft.chatapp.util.api.rx.chatroom.ChatRoomService
@@ -59,7 +58,13 @@ class ChatRoomFragment : Fragment() {
                 binding.recyclerView,
                 object : RecyclerItemClickListener.OnItemClickListener {
                     override fun onItemClick(view: View?, position: Int) {
+                        val chatRoom = adapter.list[position] as? ChatRoomReadDto ?: return
+                        val intent = Intent(context, ChattingActivity::class.java)
+                        intent.putExtra("chatRoom", chatRoom)
+                        intent.putExtra("myInfo", myInfo)
+                        intent.putExtra("friendInfo", chatRoom.getFriend(myInfo))
 
+                        resultLauncher.launch(intent)
                     }
 
                     override fun onItemLongClick(view: View?, position: Int) {}

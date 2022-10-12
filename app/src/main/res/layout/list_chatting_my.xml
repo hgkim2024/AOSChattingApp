@@ -29,14 +29,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="3dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
+            android:layout_marginTop="4dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:background="@drawable/rounded_yellow"/>
 
         <TextView
+            android:visibility="invisible"
             android:text="오후 2:00"
             android:id="@+id/time"
             android:layout_width="wrap_content"

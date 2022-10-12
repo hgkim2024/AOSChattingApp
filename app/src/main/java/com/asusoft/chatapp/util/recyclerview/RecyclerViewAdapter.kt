@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.asusoft.chatapp.R
+import com.asusoft.chatapp.util.api.domain.chtting.ChattingReadDto
 import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
 import com.asusoft.chatapp.util.recyclerview.RecyclerViewType.*
 import com.asusoft.chatapp.util.recyclerview.holder.*
@@ -38,8 +39,8 @@ class RecyclerViewAdapter(
             }
 
             CHATTING -> {
-                if ((friendInfo != null) && (item is MemberReadDto)) {
-                    return if (item.id == myInfo.id)
+                if ((friendInfo != null) && (item is ChattingReadDto)) {
+                    return if (item.memberId == myInfo.id)
                         0
                     else
                         1
