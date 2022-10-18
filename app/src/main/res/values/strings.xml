@@ -21,4 +21,9 @@
     <string name="add_friend_btn">친구추가</string>
 
 
+
+    <!--  fcm 서버키  -->
+    <string name="default_notification_channel_id">AAAAyr__4iE:APA91bFPKaC_7bnepGs07z8VBHFyaB40ilcbZF53ID1kLaZDtz1pmjfcZtPRSY3GI0lRrredKGfKJN1w4VckpwS6IND3QqONch4Hu8Nwnffe2c_utPI6fDVq2EM8JsdDHsHN50bzD3yP</string>
+
+
 </resources>

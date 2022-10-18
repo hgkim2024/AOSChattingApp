@@ -13,10 +13,14 @@ import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
 import com.asusoft.chatapp.util.api.rx.ApiController
 import com.asusoft.chatapp.util.api.rx.chtting.ChattingService
 import com.asusoft.chatapp.util.api.rx.friend.FriendService
+import com.asusoft.chatapp.util.eventbus.GlobalBus
 import com.asusoft.chatapp.util.extension.onClick
+import com.asusoft.chatapp.util.fcm.FCMService
 import com.asusoft.chatapp.util.recyclerview.RecyclerItemClickListener
 import com.asusoft.chatapp.util.recyclerview.RecyclerViewAdapter
 import com.jakewharton.rxbinding4.view.clicks
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class ChattingActivity : AppCompatActivity() {
 
@@ -65,6 +69,21 @@ class ChattingActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (chatRoom.id != null) {
+            chatroomId = chatRoom.id!!
+        }
+        updateChattingList()
+        GlobalBus.register(this)
+    }
+
+    override fun onStop() {
+        chatroomId = -1
+        GlobalBus.unregister(this)
+        super.onStop()
+    }
+
     private fun updateChattingList() {
         chatRoom.id ?: return
 
@@ -84,7 +103,7 @@ class ChattingActivity : AppCompatActivity() {
     }
 
     private fun sendChatting(message: String) {
-        val dto = ChattingCreateDto(message, myInfo.id, chatRoom.id)
+        val dto = ChattingCreateDto(message, myInfo.id, friendInfo.id, chatRoom.id)
         val api = ChattingService.create(dto)
 
         ApiController.apiSubscribe(
@@ -97,5 +116,24 @@ class ChattingActivity : AppCompatActivity() {
                 ApiController.toast(this, "친구 닉네임을 찾을 수 없거나 이미 친구입니다.")
             }
         )
+    }
+
+    override fun onDestroy() {
+        chatroomId = -1
+        super.onDestroy()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public fun onEvent(map: HashMap<String, Any>) {
+        if (map[FCMService.toString()] != null) {
+            val dto = map["dto"] as? ChattingReadDto ?: return
+            adapter.list.add(dto)
+            adapter.notifyItemInserted(adapter.list.size)
+            binding.recyclerView.scrollToPosition(adapter.list.size - 1)
+        }
+    }
+
+    companion object {
+        var chatroomId: Long = -1
     }
 }

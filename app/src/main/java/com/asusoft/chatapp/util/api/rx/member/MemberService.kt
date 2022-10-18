@@ -22,4 +22,8 @@ object MemberService {
         return memberRepository.login(map)
     }
 
+    fun uploadFcmToken(memberId: Long, fcmToken: String): Observable<Long> {
+        return memberRepository.uploadFcmToken(memberId, fcmToken)
+    }
+
 }

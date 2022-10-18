@@ -1,8 +1,10 @@
 package com.asusoft.chatapp.activity.login
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.asusoft.chatapp.R
@@ -14,6 +16,8 @@ import com.asusoft.chatapp.util.api.rx.ApiController
 import com.asusoft.chatapp.util.api.rx.member.MemberService
 import com.asusoft.chatapp.databinding.ActivityLoginBinding
 import com.asusoft.chatapp.util.extension.onClick
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.jakewharton.rxbinding4.view.clicks
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
@@ -66,6 +70,9 @@ class LoginActivity : AppCompatActivity() {
 //                Toast.makeText(this, dto.name, Toast.LENGTH_SHORT).show()
                 ApiController.toast(this, dto.name)
 
+                myInfo = dto
+                getToken()
+
                 val intent = Intent(baseContext, HomeActivity::class.java)
                 intent.putExtra("myInfo", dto)
                 startActivity(intent)
@@ -78,5 +85,45 @@ class LoginActivity : AppCompatActivity() {
             }
         )
 
+    }
+
+    private fun uploadFcmToken(memberId: Long, fcmToken: String) {
+        val api = MemberService.uploadFcmToken(memberId, fcmToken)
+
+        ApiController.apiSubscribe(
+            api,
+            this,
+            { _ ->
+
+            }, {
+                ApiController.toast(this, "FCM 토큰 발행 실패")
+            }
+        )
+    }
+
+    private fun getToken(): String?{
+        var token: String? = null
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if(!task.isSuccessful){
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+
+                return@OnCompleteListener
+            }
+            // get new FCM registration token
+            token = task.result
+
+            if (myInfo?.id != null && token != null) {
+                uploadFcmToken(myInfo!!.id!!, token!!)
+            }
+
+            Log.d(TAG, "FCM token: $token")
+        })
+
+        return token
+    }
+
+    companion object {
+        private const val TAG = "LoginActivity"
+        public var myInfo: MemberReadDto? = null
     }
 }
