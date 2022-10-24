@@ -3,6 +3,7 @@ package com.asusoft.chatapp.application
 import android.app.Application
 import android.content.Context
 import com.asusoft.chatapp.util.objects.CalculatorUtil
+import com.asusoft.chatapp.util.objects.PreferenceManager
 import io.realm.Realm
 
 class ChattingApplication: Application() {
@@ -25,6 +26,7 @@ class ChattingApplication: Application() {
         Realm.init(this)
 
         // Util 초기화
+        PreferenceManager.setApplicationContext(this)
         CalculatorUtil.setContext(this)
     }
 

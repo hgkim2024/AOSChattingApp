@@ -1,7 +1,6 @@
 package com.asusoft.chatapp.activity.login
 
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,28 +8,30 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.asusoft.chatapp.R
 import com.asusoft.chatapp.activity.chatting.HomeActivity
-import com.asusoft.chatapp.application.ChattingApplication
 import com.asusoft.chatapp.util.api.domain.member.LoginDto
 import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
 import com.asusoft.chatapp.util.api.rx.ApiController
 import com.asusoft.chatapp.util.api.rx.member.MemberService
 import com.asusoft.chatapp.databinding.ActivityLoginBinding
+import com.asusoft.chatapp.util.api.domain.chtting.ChattingReadDto
 import com.asusoft.chatapp.util.extension.onClick
+import com.asusoft.chatapp.util.objects.PreferenceKey
+import com.asusoft.chatapp.util.objects.PreferenceManager
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
-import com.jakewharton.rxbinding4.view.clicks
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import java.util.concurrent.TimeUnit
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    private var chattingReadDto: ChattingReadDto? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        chattingReadDto = intent.getSerializableExtra("chattingReadDto") as? ChattingReadDto
 
         // TODO:- 더이데이터 나중에 제거하기
         binding.tvId.setText("asukim2020")
@@ -54,8 +55,17 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnSignUp.onClick {
             val intent = Intent(this, SignUpActivity::class.java)
+            intent.putExtra("chattingReadDto", chattingReadDto)
             resultLauncher.launch(intent)
 //            overridePendingTransition(androidx.appcompat.R.anim.abc_popup_enter, androidx.appcompat.R.anim.abc_fade_in)
+        }
+
+        val id = PreferenceManager.getString(PreferenceKey.ID)
+        val pw = PreferenceManager.getString(PreferenceKey.PW)
+
+        if (id != "" && pw != "") {
+            val dto = LoginDto(id, pw)
+            login(dto)
         }
     }
 
@@ -66,15 +76,25 @@ class LoginActivity : AppCompatActivity() {
             api,
             this,
             { result ->
-                val dto: MemberReadDto = (result as? MemberReadDto) ?: return@apiSubscribe
+                val memberReadDto: MemberReadDto = (result as? MemberReadDto) ?: return@apiSubscribe
 //                Toast.makeText(this, dto.name, Toast.LENGTH_SHORT).show()
-                ApiController.toast(this, dto.name)
+                ApiController.toast(this, memberReadDto.name)
 
-                myInfo = dto
+                myInfo = memberReadDto
                 getToken()
 
+                if (binding.checkbox.isChecked) {
+                    PreferenceManager.setString(PreferenceKey.ID, dto.id)
+                    PreferenceManager.setString(PreferenceKey.PW, dto.pw)
+                } else {
+                    PreferenceManager.setString(PreferenceKey.ID, null)
+                    PreferenceManager.setString(PreferenceKey.PW, null)
+                }
+
                 val intent = Intent(baseContext, HomeActivity::class.java)
-                intent.putExtra("myInfo", dto)
+                intent.putExtra("myInfo", memberReadDto)
+                intent.putExtra("chattingReadDto", chattingReadDto)
+
                 startActivity(intent)
                 finish()
 

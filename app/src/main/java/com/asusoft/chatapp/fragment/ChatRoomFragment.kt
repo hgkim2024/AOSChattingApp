@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.asusoft.chatapp.activity.chatting.ChattingActivity
 import com.asusoft.chatapp.databinding.FragmentChatRoomBinding
 import com.asusoft.chatapp.util.api.domain.chatroom.ChatRoomReadDto
+import com.asusoft.chatapp.util.api.domain.chtting.ChattingReadDto
 import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
 import com.asusoft.chatapp.util.api.rx.ApiController
 import com.asusoft.chatapp.util.api.rx.chatroom.ChatRoomService
@@ -22,6 +23,7 @@ class ChatRoomFragment : Fragment() {
 
     private lateinit var myInfo: MemberReadDto
     private var chatRoomList: ArrayList<Any> = ArrayList()
+    private var chattingReadDto: ChattingReadDto? = null
 
     private lateinit var binding: FragmentChatRoomBinding
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
@@ -31,6 +33,7 @@ class ChatRoomFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             myInfo = it.getSerializable("myInfo") as MemberReadDto
+            chattingReadDto = it.getSerializable("chattingReadDto") as? ChattingReadDto
         }
 
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -87,18 +90,42 @@ class ChatRoomFragment : Fragment() {
                 chatRoomList = result as? ArrayList<Any> ?: return@apiSubscribe
                 adapter.list = chatRoomList
                 adapter.notifyDataSetChanged()
+
+                if (chattingReadDto != null) {
+                    val chatRoom = chattingReadDto?.chatRoomId ?: return@apiSubscribe
+                    val list = chatRoomList.filter {
+                        if (it is ChatRoomReadDto) {
+                            it.id == chatRoom
+                        } else {
+                            false
+                        }
+                    }
+                    goChatroom(list[0] as? ChatRoomReadDto)
+                }
+
             }, {
                 ApiController.toast(context, "친구목록 불러오기 실패")
             }
         )
     }
 
+    private fun goChatroom(chatRoom: ChatRoomReadDto?) {
+        if (chatRoom == null) return
+        val intent = Intent(context, ChattingActivity::class.java)
+        intent.putExtra("chatRoom", chatRoom)
+        intent.putExtra("myInfo", myInfo)
+        intent.putExtra("friendInfo", chatRoom.getFriend(myInfo))
+
+        resultLauncher.launch(intent)
+    }
+
     companion object {
         @JvmStatic
-        fun newInstance(myInfo: MemberReadDto) =
+        fun newInstance(myInfo: MemberReadDto, dto: ChattingReadDto? = null) =
             ChatRoomFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable("myInfo", myInfo)
+                    putSerializable("chattingReadDto", dto)
                 }
             }
     }

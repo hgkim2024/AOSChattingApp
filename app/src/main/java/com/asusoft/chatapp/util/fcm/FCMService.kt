@@ -2,7 +2,10 @@ package com.asusoft.chatapp.util.fcm
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_MUTABLE
 import android.content.Context
+import android.content.Intent
 import android.media.RingtoneManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
@@ -52,7 +55,7 @@ class FCMService: FirebaseMessagingService() {
                 map["dto"] = dto
                 GlobalBus.post(map)
             } else {
-                sendNotification(title!!, message!!, 0)
+                sendNotification(title!!, message!!, 0, dto)
             }
         }
 
@@ -62,22 +65,12 @@ class FCMService: FirebaseMessagingService() {
     }
 
 
-    private fun sendNotification(title: String, text: String, requestId: Int){
-        /*
-
-
-        TODO: - 채팅 방 id 가 같은 경우
-                현재 채팅방이면 알림창 띄우지 않고 채팅을 바로 갱신하기
-
-        TODO: - 채팅 방 id 가 다른 경우
-                알림 클릭 시 해당 채팅방으로 이동 - (자동 로그인 부터 구현하기)
-
-         */
-
-//        val intent = Intent(this, CardRequestActivity::class.java).apply {
-//            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP and Intent.FLAG_ACTIVITY_NEW_TASK
-//        }
-//        val pendingIntent = PendingIntent.getActivity(this, 0, intent, FLAG_MUTABLE)
+    private fun sendNotification(title: String, text: String, requestId: Int, dto: ChattingReadDto){
+        val intent = Intent(this, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP and Intent.FLAG_ACTIVITY_NEW_TASK
+            putExtra("chattingReadDto", dto)
+        }
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, FLAG_MUTABLE)
 
         val channelId = getString(R.string.google_app_id)
         val channelName = getString(R.string.app_name)
@@ -87,7 +80,7 @@ class FCMService: FirebaseMessagingService() {
             .setSound(defaultSound)
             .setContentText(text)
             .setContentTitle(title)
-//            .setContentIntent(pendingIntent)
+            .setContentIntent(pendingIntent)
             .setSmallIcon(R.drawable.ic_chat_bubble_24)
         // create notification channel
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -98,12 +91,5 @@ class FCMService: FirebaseMessagingService() {
 
     companion object {
         private const val TAG = "FirebaseMessagingService"
-    }
-
-    internal class MyWorker(appContext: Context, workerParams: WorkerParameters) : Worker(appContext, workerParams) {
-        override fun doWork(): Result {
-            // TODO(developer): add long running task here.
-            return Result.success()
-        }
     }
 }

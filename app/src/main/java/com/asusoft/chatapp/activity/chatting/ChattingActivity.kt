@@ -111,7 +111,8 @@ class ChattingActivity : AppCompatActivity() {
             this,
             { result ->
                 if (result !is Long) return@apiSubscribe
-
+                val chattingReadDto = ChattingReadDto(result, dto.message, myInfo.id, chatRoom.id)
+                addChatting(chattingReadDto)
             }, {
                 ApiController.toast(this, "친구 닉네임을 찾을 수 없거나 이미 친구입니다.")
             }
@@ -123,13 +124,17 @@ class ChattingActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    private fun addChatting(dto: ChattingReadDto) {
+        adapter.list.add(dto)
+        adapter.notifyItemInserted(adapter.list.size)
+        binding.recyclerView.scrollToPosition(adapter.list.size - 1)
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public fun onEvent(map: HashMap<String, Any>) {
         if (map[FCMService.toString()] != null) {
             val dto = map["dto"] as? ChattingReadDto ?: return
-            adapter.list.add(dto)
-            adapter.notifyItemInserted(adapter.list.size)
-            binding.recyclerView.scrollToPosition(adapter.list.size - 1)
+            addChatting(dto)
         }
     }
 

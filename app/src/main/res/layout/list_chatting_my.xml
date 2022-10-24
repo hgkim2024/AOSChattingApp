@@ -37,7 +37,6 @@
             android:background="@drawable/rounded_yellow"/>
 
         <TextView
-            android:visibility="invisible"
             android:text="오후 2:00"
             android:id="@+id/time"
             android:layout_width="wrap_content"

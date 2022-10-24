@@ -13,11 +13,13 @@ import com.asusoft.chatapp.util.api.domain.member.MemberReadDto
 import com.asusoft.chatapp.databinding.ActivityHomeBinding
 import com.asusoft.chatapp.fragment.ChatRoomFragment
 import com.asusoft.chatapp.fragment.FriendFragment
+import com.asusoft.chatapp.util.api.domain.chtting.ChattingReadDto
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    private var chattingReadDto: ChattingReadDto? = null
 
     private lateinit var friendFragment: FriendFragment
     private lateinit var chatRoomFragment: ChatRoomFragment
@@ -29,9 +31,10 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         myInfo = intent.getSerializableExtra("myInfo") as MemberReadDto
+        chattingReadDto = intent.getSerializableExtra("chattingReadDto") as? ChattingReadDto
 
         friendFragment = FriendFragment.newInstance(myInfo)
-        chatRoomFragment = ChatRoomFragment.newInstance(myInfo)
+        chatRoomFragment = ChatRoomFragment.newInstance(myInfo, chattingReadDto)
 
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             //TODO: - 친구 추가 후 친구목록 갱신
@@ -55,7 +58,12 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        setCurrentFragment(friendFragment)
+        if (chattingReadDto != null) {
+            setCurrentFragment(chatRoomFragment)
+            chattingReadDto = null
+        } else {
+            setCurrentFragment(friendFragment)
+        }
     }
 
     private fun setCurrentFragment(fragment: Fragment) {
