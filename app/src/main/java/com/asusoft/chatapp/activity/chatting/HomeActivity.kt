@@ -67,6 +67,13 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setCurrentFragment(fragment: Fragment) {
+
+        if (fragment == chatRoomFragment) {
+            supportActionBar?.title = "채팅"
+        } else if (fragment == friendFragment) {
+            supportActionBar?.title = "친구"
+       }
+
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.flFragment, fragment)
             commit()

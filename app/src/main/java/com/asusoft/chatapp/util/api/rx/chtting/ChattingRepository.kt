@@ -12,7 +12,7 @@ interface ChattingRepository {
     @POST("chatting/create")
     fun create(
         @QueryMap map: Map<String, String>
-    ): Observable<Long>
+    ): Observable<ChattingReadDto>
 
     @GET("chatting/list")
     fun list(

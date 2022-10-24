@@ -33,6 +33,6 @@ class ChattingFriendHolder(
         val pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
         val localDateTime = LocalDateTime.parse(item.createdTime, pattern)
         val text = if (localDateTime.hour >= 12) "오후" else "오전"
-        time.text = "$text ${localDateTime.hour%12}:${localDateTime.minute}"
+        time.text = "$text ${localDateTime.hour%12}:${String.format("%02d", localDateTime.minute)}"
     }
 }

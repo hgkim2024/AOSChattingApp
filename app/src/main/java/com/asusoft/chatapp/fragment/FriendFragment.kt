@@ -37,8 +37,6 @@ class FriendFragment : Fragment() {
             myInfo = it.getSerializable("myInfo") as MemberReadDto
         }
 
-        updateFriendList()
-
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
                 val intent = it.data ?: return@registerForActivityResult
@@ -46,6 +44,11 @@ class FriendFragment : Fragment() {
                 adapter.notifyDataSetChanged()
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        updateFriendList()
     }
 
     override fun onCreateView(

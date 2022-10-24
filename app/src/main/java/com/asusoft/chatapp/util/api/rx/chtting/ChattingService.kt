@@ -11,7 +11,7 @@ object ChattingService {
     private val chattingRepository: ChattingRepository = RetrofitClient.getInstanceAPI("ChattingRepository") as ChattingRepository
     private val objectMapper = ObjectMapper()
 
-    fun create(dto: ChattingCreateDto): Observable<Long> {
+    fun create(dto: ChattingCreateDto): Observable<ChattingReadDto> {
         val map = objectMapper.convertValue(dto, Map::class.java) as Map<String, String>
         return chattingRepository.create(map)
     }

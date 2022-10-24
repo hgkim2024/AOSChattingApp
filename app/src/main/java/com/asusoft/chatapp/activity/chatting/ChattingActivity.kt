@@ -43,6 +43,7 @@ class ChattingActivity : AppCompatActivity() {
         friendInfo = intent.getSerializableExtra("friendInfo") as MemberReadDto
 
         updateChattingList()
+        supportActionBar?.title = friendInfo.name
 
         adapter = RecyclerViewAdapter(this, chattingList, myInfo, friendInfo)
         binding.recyclerView.adapter = adapter
@@ -110,9 +111,8 @@ class ChattingActivity : AppCompatActivity() {
             api,
             this,
             { result ->
-                if (result !is Long) return@apiSubscribe
-                val chattingReadDto = ChattingReadDto(result, dto.message, myInfo.id, chatRoom.id)
-                addChatting(chattingReadDto)
+                if (result !is ChattingReadDto) return@apiSubscribe
+                addChatting(result)
             }, {
                 ApiController.toast(this, "친구 닉네임을 찾을 수 없거나 이미 친구입니다.")
             }
