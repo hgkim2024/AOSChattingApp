@@ -37,8 +37,8 @@ class LoginActivity : AppCompatActivity() {
         chattingReadDto = intent.getSerializableExtra("chattingReadDto") as? ChattingReadDto
 
         // TODO:- 더이데이터 나중에 제거하기
-        binding.tvId.setText("asukim2020")
-        binding.tvPw.setText("1234")
+//        binding.tvId.setText("asukim2020")
+//        binding.tvPw.setText("1234")
 
         supportActionBar?.title = getString(R.string.login_text)
 
